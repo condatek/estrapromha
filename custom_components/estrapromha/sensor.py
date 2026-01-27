@@ -4,6 +4,10 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from .const import DOMAIN, CONF_USERNAME, CONF_PASSWORD
 from .api import EstraPromAPI
 
+from datetime import timedelta
+
+SCAN_INTERVAL = timedelta(hours=12)
+
 async def async_setup_entry(hass, entry, async_add_entities):
     session = async_get_clientsession(hass)
 
@@ -36,3 +40,4 @@ class EstraPromInvoicesSensor(SensorEntity):
         invoices = data.get("invoices", [])
         self._invoices = invoices
         self._state = len(invoices)
+
