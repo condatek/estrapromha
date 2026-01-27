@@ -1,0 +1,10 @@
+{
+  "domain": "estrapromha",
+  "name": "Estra Prometeo HA",
+  "version": "1.0.0",
+  "documentation": "https://github.com/condatek/estrapromha",
+  "requirements": [],
+  "codeowners": ["@condatek"],
+  "iot_class": "cloud_polling",
+  "config_flow": true
+}
