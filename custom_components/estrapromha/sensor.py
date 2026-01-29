@@ -36,8 +36,17 @@ class EstraPromInvoicesSensor(SensorEntity):
         return {"invoices": self._invoices}
 
     async def async_update(self):
-        data = await self.api.get_invoices()
-        invoices = data.get("invoices", [])
-        self._invoices = invoices
-        self._state = len(invoices)
+        try:
+            invoices = await self.api.get_invoices()
+
+            if invoices is None:
+                _LOGGER.warning("Estra API returned no data, keeping previous state")
+                return
+
+            self._invoices_raw = invoices
+            self._state = len(invoices)
+
+        except Exception as e:
+            _LOGGER.exception(f"Unexpected error while updating Estra invoices: {e}")
+
 
