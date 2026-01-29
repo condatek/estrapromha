@@ -39,24 +39,17 @@ class EstraPromAPI:
                     data = await resp.json()
 
                     if status != 200:
-                        _LOGGER.error(
-                            "Error fetching invoices: HTTP %s, response: %s",
-                            status,
-                            data,
-                        )
+                        _LOGGER.error("HTTP %s while fetching invoices: %s", status, data)
                         return None
 
                     if not data.get("success"):
-                        _LOGGER.error(
-                            "Estra API returned error while fetching invoices: %s",
-                            data,
-                        )
+                        _LOGGER.error("Estra API returned error: %s", data)
                         return None
 
-                    # Return full JSON, not just the list
                     return data
 
         except Exception as e:
             _LOGGER.exception("Unexpected error while fetching invoices: %s", e)
             return None
+
 
