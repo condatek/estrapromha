@@ -25,7 +25,7 @@ class EstraPromAPI:
                 return self.token
 
     async def get_invoices(self):
-        """Fetch invoices to pay from Estra API. Returns a list or None on failure."""
+        """Fetch invoices to pay from Estra API. Returns full JSON or None on failure."""
         if not self.token:
             await self.login()
 
@@ -53,16 +53,10 @@ class EstraPromAPI:
                         )
                         return None
 
-                    invoices = data.get("invoices")
-                    if invoices is None:
-                        _LOGGER.warning(
-                            "Estra API returned success but no 'invoices' field: %s",
-                            data,
-                        )
-                        return None
-
-                    return invoices
+                    # Return full JSON, not just the list
+                    return data
 
         except Exception as e:
             _LOGGER.exception("Unexpected error while fetching invoices: %s", e)
             return None
+
